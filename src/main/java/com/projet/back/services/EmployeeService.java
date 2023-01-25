@@ -84,5 +84,7 @@ public class EmployeeService {
         return "Success";
     }
 
-
+    public Long countAllEmployees() {
+        return employeeRepo.count();
+    }
 }

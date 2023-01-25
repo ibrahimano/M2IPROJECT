@@ -3,6 +3,7 @@ package com.projet.back.controllers;
 import com.projet.back.models.EmployeePasswords;
 import com.projet.back.models.Employees;
 import com.projet.back.services.EmployeeService;
+import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ public class AppController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/home")
+   /* @GetMapping("/home")
     public String HomePage() {
         return "Home page";
     }
@@ -23,7 +24,7 @@ public class AppController {
     @GetMapping("/admin")
     public String AdminPage() {
         return "Admin page";
-    }
+    }*/
 
     //find a user by email
     @GetMapping("/find/{email}")
@@ -62,13 +63,25 @@ public class AppController {
             return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
         }
     }*/
-    @PutMapping("/update/password/{id}")
+  /*  @PutMapping("/update/password/{id}")
     public ResponseEntity<String> updatePassword(@PathVariable("id") Long id,@RequestBody EmployeePasswords Passwords) {
         String message = employeeService.updatePassword(id, Passwords.getOldPassword(), Passwords.getNewPassword(), Passwords.getConfirmNewPassword());
         if (message.equals("Success")) {
             return new ResponseEntity<>(message, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        }
+    }*/
+    @PutMapping("/update/password/{id}")
+    public ResponseEntity<Object> updatePassword(@PathVariable("id") Long id,@RequestBody EmployeePasswords Passwords) {
+        String message = employeeService.updatePassword(id, Passwords.getOldPassword(), Passwords.getNewPassword(), Passwords.getConfirmNewPassword());
+        JSONObject response = new JSONObject();
+        if (message.equals("Success")) {
+            response.put("message", message);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            response.put("message", message);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
 

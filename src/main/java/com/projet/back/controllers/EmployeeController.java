@@ -70,7 +70,11 @@ public class EmployeeController {
         return  new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
-
+    @GetMapping("/count")
+    public ResponseEntity<Long> countAllEmployees() {
+        long count = employeeService.countAllEmployees();
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
 
 }
 

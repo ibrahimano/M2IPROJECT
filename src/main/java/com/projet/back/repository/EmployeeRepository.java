@@ -34,4 +34,5 @@ public interface EmployeeRepository extends JpaRepository<Employees, Long> {
     @Query("UPDATE Employees e SET e.nom = :nom, e.prenom = :prenom, e.cin = :cin, e.email = :email, e.Telephone = :telephone, e.Bureau = :bureau, e.password = :password, e.imageUrl = :imageUrl WHERE e.id = :id")
     int updateEmployee(@Param("id") Long id, @Param("nom") String nom, @Param("prenom") String prenom, @Param("cin") String cin, @Param("email") String email, @Param("telephone") String telephone, @Param("bureau") String bureau, @Param("password") String password, @Param("imageUrl") String imageUrl);
     */
+
 }

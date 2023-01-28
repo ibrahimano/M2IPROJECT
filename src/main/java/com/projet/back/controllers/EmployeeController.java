@@ -21,18 +21,22 @@ public class EmployeeController {
         this.employeeService = employeeService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
+    //contient seulement les fonctions effectuer par l'admin
 
+    //avoir la liste des utilisateurs (employees)
     @GetMapping("/all")
     public ResponseEntity<List<Employees>> getAllEmployees() {
         List<Employees> employees = employeeService.findAllEmployees();
         return  new ResponseEntity<>(employees, HttpStatus.OK);
     }
-    //this is considered as /employee/find/{id}
+
+    //trouver un employee par son id
     @GetMapping("/find/{id}")
     public ResponseEntity<Employees> getEmployeeById(@PathVariable("id") Long id) {
         Employees employee = employeeService.findEmployeeById(id);
         return  new ResponseEntity<>(employee, HttpStatus.OK);
     }
+    //ajouter un empoyee
     @PostMapping("/add")
     public ResponseEntity<Employees> addEmployee(@RequestBody Employees employee) {
 
@@ -44,7 +48,7 @@ public class EmployeeController {
         Employees newEmployee = employeeService.addEmployee(employee);
         return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
     }
-
+    //modiifer les information d'un employee
     @PutMapping("/update")
     public ResponseEntity<Employees> updateEmployee(@RequestBody Employees employee) {
         Employees oldEmployee = employeeService.findEmployeeById(employee.getId());
@@ -57,6 +61,8 @@ public class EmployeeController {
         Employees updateEmployee = employeeService.updateEmployee(employee);
         return new ResponseEntity<>(updateEmployee, HttpStatus.OK);
     }
+
+    //supprimer un employee
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteEmployee(@PathVariable("id") Long id) {
         employeeService.deleteEmployee(id);
@@ -64,12 +70,14 @@ public class EmployeeController {
         return  new ResponseEntity<>(HttpStatus.OK);
     }
 
+    //rechercher un employee par nom
     @GetMapping("/search")
     public ResponseEntity<List<Employees>> getEmployeeByNomLikeIgnoreCase(@RequestParam("nom") String nom) {
         List<Employees> employees = employeeService.findByNomLikeIgnoreCase(nom);
         return  new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
+    //compter le nombre des employees
     @GetMapping("/count")
     public ResponseEntity<Long> countAllEmployees() {
         long count = employeeService.countAllEmployees();

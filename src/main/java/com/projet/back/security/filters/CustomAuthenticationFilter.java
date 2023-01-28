@@ -56,7 +56,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 //.withSubject(user.getUsername())
                 .withSubject(Long.toString(user.getEmployee().getId()))
                 .withIssuedAt(new Date(System.currentTimeMillis()))
-                .withExpiresAt(new Date(System.currentTimeMillis() + 60 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 2 * 60 * 60 * 1000))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
@@ -64,7 +64,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 //.withSubject(user.getUsername())
                 .withSubject(Long.toString(user.getEmployee().getId()))
                 .withIssuedAt(new Date(System.currentTimeMillis()))
-                .withExpiresAt(new Date(System.currentTimeMillis() + 90 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() +  24 * 60 * 60 * 1000))
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
         /*response.setHeader("access_token", access_token);

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 public class AuthController {
 
 
-
+    //se deconnecter
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request) {
         SecurityContextHolder.clearContext();

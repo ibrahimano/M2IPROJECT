@@ -22,74 +22,85 @@ public class MaterielController {
     public MaterielController() {
     }
 
+    //ajouter un nouveau materiel
     @PostMapping({"/add"})
     public ResponseEntity<Materiel> createMateriel(@RequestBody Materiel materiel) {
         Materiel createdMateriel = this.materielService.createMateriel(materiel);
         return new ResponseEntity(createdMateriel, HttpStatus.CREATED);
     }
 
+    //trouver un materiel par id
     @GetMapping({"/find/{id}"})
     public ResponseEntity<Materiel> getMaterielById(@PathVariable Long id) {
         Materiel materiel = this.materielService.getMaterielById(id);
         return materiel == null ? new ResponseEntity(HttpStatus.NOT_FOUND) : new ResponseEntity(materiel, HttpStatus.OK);
     }
 
+    //trouver les materiels affecter à emplyee par id
     @GetMapping({"/find/employee/{id}"})
     public List<Materiel> findByEmployeeId(@PathVariable Long id) {
         return this.materielService.getMaterielByEmployee(id);
     }
 
+    //rechercher les materiel par type
     @GetMapping({"/search"})
     public List<Materiel> search(@RequestParam("type") String type) {
         return this.materielService.searchByType(type);
     }
 
+    //rechercher dans les materiel affecter aux employees par type
     @GetMapping({"/searchAffectation"})
     public List<Materiel> searchInMaterielAffecte(@RequestParam("type") String type) {
         return this.materielService.findByTypeAndDateAffectationNotNull(type);
     }
 
+    //rechercher dans les materiel affecter à un seul employee par type materiel et id employee
     @GetMapping({"/employee/searchAffectation"})
     public List<Materiel> findByTypeAndDateAffectationNotNullAndEmployeeId(@RequestParam("type") String type, @Param("employeeId") Long employeeId) {
         return this.materielService.findByTypeAndDateAffectationNotNull(type);
     }
+    //rechercher entre les materiels disponibles par type
     @GetMapping({"/searchDisponible"})
     public List<Materiel> searchInMaterielDisponible(@RequestParam("type") String type) {
         return this.materielService.findByTypeAndDateAffectationIsNull(type);
     }
-
+    //rechercher par date d'affectation
     @GetMapping({"/dateAffectation"})
     public List<Materiel> searchdate(@RequestParam("date") String date) {
         return this.materielService.searchByDateAffectation(date);
     }
-
+    //rechercher les materiel affecter
     @GetMapping({"/dateAffectation/null"})
     public List<Materiel> searchdateNull() {
         return this.materielService.searchByDateAffectationIsNull();
     }
 
+    //rechercher les materiel non affecter i.e disponible
     @GetMapping({"/dateAffectation/not-null"})
     public List<Materiel> searchdateNotNull() {
         return this.materielService.searchByDateAffectationNotNull();
     }
 
+    //avoir tous les materiels
     @GetMapping({"/all"})
     public List<Materiel> getAllMateriels() {
         return this.materielService.getAllMateriels();
     }
 
+    //supprimer un materiel
     @DeleteMapping({"/delete/{id}"})
     public ResponseEntity<Void> deleteMateriel(@PathVariable Long id) {
         this.materielService.deleteMateriel(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+    //compter le nombre de materiels
     @GetMapping("/count")
     public ResponseEntity<Long> countAllMateriels() {
         long count = materielService.countAllMateriels();
         return new ResponseEntity<>(count, HttpStatus.OK);
     }
-
+    //affecter un materiel par id materiel et employee
     @PutMapping("/affecter/{id}")
     public Materiel affecterMateriel(@PathVariable long id,@RequestBody Employees employee){
         Materiel materiel = materielService.getMaterielById(id);

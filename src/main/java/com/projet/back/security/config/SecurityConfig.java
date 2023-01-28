@@ -48,8 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/auth/login/**", "/auth/logout/**", "/token/refresh/**").permitAll();
-        http.authorizeRequests().antMatchers("/find/**", "/checkRole/**", "/update/user/**", "/update/password/**", "/fourniture/**", "/demande/**", "/materiel/**").hasAnyAuthority("Chef", "Adjoint", "Enseignant", "Technicien");
-        http.authorizeRequests().antMatchers("/admin/**", "/admin/employee/**").hasAnyAuthority("Chef", "Adjoint");
+        http.authorizeRequests().antMatchers("/find/**", "/checkRole/**", "/update/user/**", "/update/password/**", "/demande/**", "/materiel/**").hasAnyAuthority("Chef", "Adjoint", "Enseignant", "Technicien");
+        http.authorizeRequests().antMatchers("/admin/**", "/admin/employee/**", "/fourniture/**", "/demande/accepter/**", "/demande/rejeter/**", "/materiel/affecter/**").hasAnyAuthority("Chef", "Adjoint");
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

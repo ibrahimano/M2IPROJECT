@@ -16,36 +16,27 @@ public class AppController {
         this.employeeService = employeeService;
     }
 
-   /* @GetMapping("/home")
-    public String HomePage() {
-        return "Home page";
-    }
 
-    @GetMapping("/admin")
-    public String AdminPage() {
-        return "Admin page";
-    }*/
-
-    //find a user by email
+    //trouver un utilisateur par email
     @GetMapping("/find/{email}")
     public ResponseEntity<Employees> getEmployee(@PathVariable("email") String email) {
         Employees employee = employeeService.findEmployeeByEmail(email);
         return  new ResponseEntity<>(employee, HttpStatus.OK);
     }
-    //find a user by his id
+    //trouver un utilisateur par id
     @GetMapping("/find/user/{id}")
     public ResponseEntity<Employees> getEmployeeById(@PathVariable("id") Long id) {
         Employees employee = employeeService.findEmployeeById(id);
         return  new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
-    //check if a role exist
+    //verifier si role existe
     @GetMapping("/checkRole/{role}")
     public boolean getCheckedFonction(@PathVariable("role") String role) {
         return  employeeService.CheckIfRoleExists(role);
     }
 
-    //update some specific variables for a user this is used when a user is not an admin so his not allowed to change all variables
+    //modifier les informations de l'utilisateur sans modifier le grade, role, fonction qui seul admin peuvent faire
     @PutMapping("/update/user/{id}")
     public ResponseEntity<Employees> updateEmployee(@PathVariable("id") Long id, @RequestBody Employees employee) {
         Employees updatedEmployee = employeeService.updateEmployee(id, employee.getNom(), employee.getPrenom(), employee.getCin(), employee.getEmail(), employee.getTelephone(), employee.getBureau(), employee.getImageUrl());
@@ -53,25 +44,7 @@ public class AppController {
         return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
     }
 
-    //change only the user's password
-  /*  @PutMapping("/update/password/{id}")
-    public ResponseEntity<String> updatePassword(@PathVariable("id") Long id, @RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword, @RequestParam("confirmNewPassword") String confirmNewPassword) {
-        String message = employeeService.updatePassword(id, oldPassword, newPassword, confirmNewPassword);
-        if (message.equals("Success")) {
-            return new ResponseEntity<>(message, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-        }
-    }*/
-  /*  @PutMapping("/update/password/{id}")
-    public ResponseEntity<String> updatePassword(@PathVariable("id") Long id,@RequestBody EmployeePasswords Passwords) {
-        String message = employeeService.updatePassword(id, Passwords.getOldPassword(), Passwords.getNewPassword(), Passwords.getConfirmNewPassword());
-        if (message.equals("Success")) {
-            return new ResponseEntity<>(message, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-        }
-    }*/
+    //changer le mot de passe d'un utilisateur on verifiant le mdp actuel et le nouveau mdp avec sa confirmation
     @PutMapping("/update/password/{id}")
     public ResponseEntity<Object> updatePassword(@PathVariable("id") Long id,@RequestBody EmployeePasswords Passwords) {
         String message = employeeService.updatePassword(id, Passwords.getOldPassword(), Passwords.getNewPassword(), Passwords.getConfirmNewPassword());
